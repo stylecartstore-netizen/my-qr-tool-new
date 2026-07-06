@@ -2,12 +2,18 @@
 <html>
 <head>
     <title>QR Code Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #f4f4f4; }
+        input { padding: 10px; width: 250px; margin: 10px; border-radius: 5px; border: 1px solid #ccc; }
+        button { padding: 10px 20px; cursor: pointer; background-color: #28a745; color: white; border: none; border-radius: 5px; }
+        #qrImage { margin-top: 20px; border: 5px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    </style>
 </head>
 <body>
     <h1>QR Code Generator</h1>
     <input type="text" id="text" placeholder="Yahan link likhein">
     <button onclick="generateQR()">Generate QR</button>
-    <br><br>
+    <br>
     <img id="qrImage" src="" alt="">
 
     <script>
@@ -15,7 +21,9 @@
             let text = document.getElementById("text").value;
             let qrImage = document.getElementById("qrImage");
             if(text.length > 0) {
-                qrImage.src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + text;
+                qrImage.src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + text;
+            } else {
+                alert("Please koi link enter karein!");
             }
         }
     </script>
