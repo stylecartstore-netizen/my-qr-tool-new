@@ -7,15 +7,15 @@
         .container { background: white; padding: 20px; border-radius: 15px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 300px; }
         input, select { padding: 10px; margin: 5px; border-radius: 5px; border: 1px solid #ccc; width: 90%; }
         button { padding: 10px 20px; background: #6200ea; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; width: 95%; }
-        #qrImage { margin-top: 20px; }
-        #downloadBtn { display: none; background-color: #28a745; margin-top: 15px; padding: 10px; color: white; text-decoration: none; border-radius: 5px; display: none; }
+        #qrImage { margin-top: 20px; max-width: 100%; height: auto; }
+        #downloadBtn { display: none; background-color: #28a745; margin-top: 15px; padding: 10px; color: white; text-decoration: none; border-radius: 5px; width: 88%; }
         #history { margin-top: 20px; font-size: 0.8em; color: #555; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>QR Pro</h1>
-        <input type="text" id="text" placeholder="Link yahan likhein">
+        <input type="text" id="text" placeholder="Link yahan enter karein">
         <input type="color" id="color" value="#000000">
         <select id="ecc">
             <option value="L">Low Correction</option>
@@ -31,7 +31,6 @@
     </div>
 
     <script>
-        let historyList = [];
         function generateQR() {
             let text = document.getElementById("text").value;
             let color = document.getElementById("color").value.replace("#", "");
@@ -40,13 +39,19 @@
             let downloadBtn = document.getElementById("downloadBtn");
 
             if(text.length > 0) {
-                let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${text}&color=${color}&ecc=${ecc}`;
+                let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(text)}&color=${color}&ecc=${ecc}`;
                 qrImage.src = qrUrl;
-                downloadBtn.href = qrUrl;
-                downloadBtn.style.display = "inline-block";
                 
-                // Add to history
-                historyList.push(text);
+                // Download link fix karne ke liye fetch use kar rahe hain
+                fetch(qrUrl)
+                    .then(response => response.blob())
+                    .then(blob => {
+                        let blobUrl = URL.createObjectURL(blob);
+                        downloadBtn.href = blobUrl;
+                        downloadBtn.style.display = "inline-block";
+                    })
+                    .catch(err => console.error(err));
+
                 document.getElementById("history").innerText = "Last link: " + text;
             } else {
                 alert("Please link enter karein!");
