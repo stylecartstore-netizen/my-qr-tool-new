@@ -1,46 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QR Code Generator Pro</title>
+    <title>Advanced QR Generator</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; margin-top: 50px; background-color: #f9f9f9; }
-        .container { background: white; padding: 20px; border-radius: 10px; display: inline-block; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
-        input, select { padding: 10px; margin: 10px; border-radius: 5px; border: 1px solid #ddd; }
-        button { padding: 10px 20px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px; transition: 0.3s; }
-        button:hover { background-color: #0056b3; }
-        #qrImage { margin-top: 20px; display: block; margin-left: auto; margin-right: auto; }
-        #downloadBtn { margin-top: 15px; display: none; background-color: #28a745; }
+        body { font-family: sans-serif; text-align: center; padding: 20px; background: #f0f2f5; }
+        .container { background: white; padding: 20px; border-radius: 15px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        input, select { padding: 10px; margin: 5px; border-radius: 5px; border: 1px solid #ccc; }
+        button { padding: 10px 20px; background: #6200ea; color: white; border: none; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>QR Code Generator</h1>
-        <input type="text" id="text" placeholder="Yahan link likhein" style="width: 250px;">
+        <h1>QR Generator Pro</h1>
+        <input type="text" id="text" placeholder="Link yahan likhein">
         <br>
-        <select id="size">
-            <option value="150">Small (150x150)</option>
-            <option value="250" selected>Medium (250x250)</option>
-            <option value="400">Large (400x400)</option>
+        <label>Rang chunein: </label>
+        <input type="color" id="color" value="#000000">
+        <br>
+        <select id="ecc">
+            <option value="L">Low Correction</option>
+            <option value="M" selected>Medium Correction</option>
+            <option value="Q">High Correction</option>
         </select>
+        <br>
         <button onclick="generateQR()">Generate QR</button>
         <br>
-        <img id="qrImage" src="" alt="">
-        <br>
-        <a id="downloadBtn" href="#" download="qrcode.png"><button style="background-color: #28a745;">Download QR</button></a>
+        <img id="qrImage" src="" alt="" style="margin-top:20px;">
     </div>
 
     <script>
         function generateQR() {
             let text = document.getElementById("text").value;
-            let size = document.getElementById("size").value;
+            let color = document.getElementById("color").value.substring(1);
+            let ecc = document.getElementById("ecc").value;
             let qrImage = document.getElementById("qrImage");
-            let downloadBtn = document.getElementById("downloadBtn");
 
             if(text.length > 0) {
-                let qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=" + size + "x" + size + "&data=" + text;
-                qrImage.src = qrUrl;
-                downloadBtn.href = qrUrl;
-                downloadBtn.style.display = "inline-block";
+                // API URL with Color and Error Correction support
+                qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${text}&color=${color}&ecc=${ecc}`;
             } else {
                 alert("Please koi link enter karein!");
             }
