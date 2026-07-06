@@ -1,27 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QR Code Generator</title>
+    <title>QR Code Generator Pro</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #f4f4f4; }
-        input { padding: 10px; width: 250px; margin: 10px; border-radius: 5px; border: 1px solid #ccc; }
-        button { padding: 10px 20px; cursor: pointer; background-color: #28a745; color: white; border: none; border-radius: 5px; }
-        #qrImage { margin-top: 20px; border: 5px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; margin-top: 50px; background-color: #f9f9f9; }
+        .container { background: white; padding: 20px; border-radius: 10px; display: inline-block; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+        input, select { padding: 10px; margin: 10px; border-radius: 5px; border: 1px solid #ddd; }
+        button { padding: 10px 20px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px; transition: 0.3s; }
+        button:hover { background-color: #0056b3; }
+        #qrImage { margin-top: 20px; display: block; margin-left: auto; margin-right: auto; }
+        #downloadBtn { margin-top: 15px; display: none; background-color: #28a745; }
     </style>
 </head>
 <body>
-    <h1>QR Code Generator</h1>
-    <input type="text" id="text" placeholder="Yahan link likhein">
-    <button onclick="generateQR()">Generate QR</button>
-    <br>
-    <img id="qrImage" src="" alt="">
+    <div class="container">
+        <h1>QR Code Generator</h1>
+        <input type="text" id="text" placeholder="Yahan link likhein" style="width: 250px;">
+        <br>
+        <select id="size">
+            <option value="150">Small (150x150)</option>
+            <option value="250" selected>Medium (250x250)</option>
+            <option value="400">Large (400x400)</option>
+        </select>
+        <button onclick="generateQR()">Generate QR</button>
+        <br>
+        <img id="qrImage" src="" alt="">
+        <br>
+        <a id="downloadBtn" href="#" download="qrcode.png"><button style="background-color: #28a745;">Download QR</button></a>
+    </div>
 
     <script>
         function generateQR() {
             let text = document.getElementById("text").value;
+            let size = document.getElementById("size").value;
             let qrImage = document.getElementById("qrImage");
+            let downloadBtn = document.getElementById("downloadBtn");
+
             if(text.length > 0) {
-                qrImage.src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + text;
+                let qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=" + size + "x" + size + "&data=" + text;
+                qrImage.src = qrUrl;
+                downloadBtn.href = qrUrl;
+                downloadBtn.style.display = "inline-block";
             } else {
                 alert("Please koi link enter karein!");
             }
