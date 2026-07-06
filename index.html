@@ -12,7 +12,7 @@
 <body>
     <div class="container">
         <h1>QR Generator Pro</h1>
-        <input type="text" id="text" placeholder="Link yahan likhein">
+        <input type="text" id="text" placeholder="Link yahan likhein" style="width: 250px;">
         <br>
         <label>Rang chunein: </label>
         <input type="color" id="color" value="#000000">
@@ -28,34 +28,20 @@
         <img id="qrImage" src="" alt="" style="margin-top:20px;">
     </div>
 
-    <<script>
-    function generateQR() {
-        let text = document.getElementById("text").value;
-        // Yahan .replace("#", "") add kar rahe hain taake '#' hat jaye
-        let color = document.getElementById("color").value.replace("#", ""); 
-        let ecc = document.getElementById("ecc").value;
-        let qrImage = document.getElementById("qrImage");
-
-        if(text.length > 0) {
-            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${text}&color=${color}&ecc=${ecc}`;
-        } else {
-            alert("Please koi link enter karein!");
-        }
-    }
     <script>
-    function generateQR() {
-        let text = document.getElementById("text").value;
-        // Yahan .replace("#", "") add kar rahe hain taake '#' hat jaye
-        let color = document.getElementById("color").value.replace("#", ""); 
-        let ecc = document.getElementById("ecc").value;
-        let qrImage = document.getElementById("qrImage");
+        function generateQR() {
+            let text = document.getElementById("text").value;
+            // Yahan # ko replace kiya gaya hai taake API color ko sahi se read kar sake
+            let color = document.getElementById("color").value.replace("#", "");
+            let ecc = document.getElementById("ecc").value;
+            let qrImage = document.getElementById("qrImage");
 
-        if(text.length > 0) {
-            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${text}&color=${color}&ecc=${ecc}`;
-        } else {
-            alert("Please koi link enter karein!");
+            if(text.length > 0) {
+                qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${text}&color=${color}&ecc=${ecc}`;
+            } else {
+                alert("Please koi link enter karein!");
+            }
         }
-    }
-</script>
-        
-        
+    </script>
+</body>
+</html>
