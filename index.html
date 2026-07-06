@@ -28,20 +28,34 @@
         <img id="qrImage" src="" alt="" style="margin-top:20px;">
     </div>
 
-    <script>
-        function generateQR() {
-            let text = document.getElementById("text").value;
-            let color = document.getElementById("color").value.substring(1);
-            let ecc = document.getElementById("ecc").value;
-            let qrImage = document.getElementById("qrImage");
+    <<script>
+    function generateQR() {
+        let text = document.getElementById("text").value;
+        // Yahan .replace("#", "") add kar rahe hain taake '#' hat jaye
+        let color = document.getElementById("color").value.replace("#", ""); 
+        let ecc = document.getElementById("ecc").value;
+        let qrImage = document.getElementById("qrImage");
 
-            if(text.length > 0) {
-                // API URL with Color and Error Correction support
-                qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${text}&color=${color}&ecc=${ecc}`;
-            } else {
-                alert("Please koi link enter karein!");
-            }
+        if(text.length > 0) {
+            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${text}&color=${color}&ecc=${ecc}`;
+        } else {
+            alert("Please koi link enter karein!");
         }
-    </script>
-</body>
-</html>
+    }
+    <script>
+    function generateQR() {
+        let text = document.getElementById("text").value;
+        // Yahan .replace("#", "") add kar rahe hain taake '#' hat jaye
+        let color = document.getElementById("color").value.replace("#", ""); 
+        let ecc = document.getElementById("ecc").value;
+        let qrImage = document.getElementById("qrImage");
+
+        if(text.length > 0) {
+            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${text}&color=${color}&ecc=${ecc}`;
+        } else {
+            alert("Please koi link enter karein!");
+        }
+    }
+</script>
+        
+        
