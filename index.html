@@ -1,45 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Advanced QR Generator</title>
+    <title>Ultimate QR Generator</title>
     <style>
         body { font-family: sans-serif; text-align: center; padding: 20px; background: #f0f2f5; }
-        .container { background: white; padding: 20px; border-radius: 15px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        input, select { padding: 10px; margin: 5px; border-radius: 5px; border: 1px solid #ccc; }
-        button { padding: 10px 20px; background: #6200ea; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .container { background: white; padding: 20px; border-radius: 15px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 300px; }
+        input, select { padding: 10px; margin: 5px; border-radius: 5px; border: 1px solid #ccc; width: 90%; }
+        button { padding: 10px 20px; background: #6200ea; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; width: 95%; }
+        #qrImage { margin-top: 20px; }
+        #downloadBtn { display: none; background-color: #28a745; margin-top: 15px; padding: 10px; color: white; text-decoration: none; border-radius: 5px; display: none; }
+        #history { margin-top: 20px; font-size: 0.8em; color: #555; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>QR Generator Pro</h1>
-        <input type="text" id="text" placeholder="Link yahan likhein" style="width: 250px;">
-        <br>
-        <label>Rang chunein: </label>
+        <h1>QR Pro</h1>
+        <input type="text" id="text" placeholder="Link yahan likhein">
         <input type="color" id="color" value="#000000">
-        <br>
         <select id="ecc">
             <option value="L">Low Correction</option>
             <option value="M" selected>Medium Correction</option>
             <option value="Q">High Correction</option>
         </select>
-        <br>
         <button onclick="generateQR()">Generate QR</button>
         <br>
-        <img id="qrImage" src="" alt="" style="margin-top:20px;">
+        <img id="qrImage" src="" alt="">
+        <br>
+        <a id="downloadBtn" href="#" download="qrcode.png">Download QR</a>
+        <div id="history"></div>
     </div>
 
     <script>
+        let historyList = [];
         function generateQR() {
             let text = document.getElementById("text").value;
-            // Yahan # ko replace kiya gaya hai taake API color ko sahi se read kar sake
             let color = document.getElementById("color").value.replace("#", "");
             let ecc = document.getElementById("ecc").value;
             let qrImage = document.getElementById("qrImage");
+            let downloadBtn = document.getElementById("downloadBtn");
 
             if(text.length > 0) {
-                qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${text}&color=${color}&ecc=${ecc}`;
+                let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${text}&color=${color}&ecc=${ecc}`;
+                qrImage.src = qrUrl;
+                downloadBtn.href = qrUrl;
+                downloadBtn.style.display = "inline-block";
+                
+                // Add to history
+                historyList.push(text);
+                document.getElementById("history").innerText = "Last link: " + text;
             } else {
-                alert("Please koi link enter karein!");
+                alert("Please link enter karein!");
             }
         }
     </script>
